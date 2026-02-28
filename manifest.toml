@@ -60,7 +60,7 @@ ram.runtime = "50M"
 
         [resources.sources.main]
         in_subdir = false
-        extract = true
+        extract = false
         format = "bin"
         rename = "continuwuity"
         amd64.url = "https://forgejo.ellis.link/continuwuation/continuwuity/releases/download/v0.5.5/conduwuit-haswell-linux-amd64-maxperf"
@@ -68,8 +68,8 @@ ram.runtime = "50M"
         arm64.url = "https://forgejo.ellis.link/continuwuation/continuwuity/releases/download/v0.5.5/conduwuit-linux-arm64-maxperf"
         arm64.sha256 = "deb73a7ee010e2817174230fca1c48dd915e7ab0f963448d9cf9175dbb4dcf03"
         autoupdate.strategy = "latest_github_release"
-        autoupdate.asset.arm64 = "^v\\d+(\\.\\d+){2,3}-release-all-aarch64-v8-linux-gnu-continuwuity\\.zst$"
-        autoupdate.asset.amd64 = "^v\\d+(\\.\\d+){2,3}-release-all-x86_64-v1-linux-gnu-continuwuity\\.zst$"
+        autoupdate.asset.arm64 = "^conduwuit-haswell-linux-amd64-maxperf$"
+        autoupdate.asset.amd64 = "^conduwuit-linux-arm64-maxperf$"
 
 [resources.system_user]
 
