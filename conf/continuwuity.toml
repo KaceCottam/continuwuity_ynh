@@ -76,7 +76,7 @@ port = __PORT__
 #
 # example: "/var/lib/conduwuit"
 #
-#database_path =
+database_path = "__INSTALL_DIR__/continuwity_db"
 
 # continuwuity supports online database backups using RocksDB's Backup
 # engine API. To use this, set a database backup path that continuwuity
