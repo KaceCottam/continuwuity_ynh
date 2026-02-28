@@ -21,7 +21,7 @@ ynh_script_progression "Setting up source files..."
 ynh_setup_source --dest_dir="$install_dir"
 
 chown -R $app:root "$install_dir"
-chmod +x "$install_dir/tuwunel"
+chmod +x "$install_dir/continuwuity"
 
 #=================================================
 # SYSTEM CONFIGURATION
@@ -45,10 +45,10 @@ yunohost service add $app --description="Chat server powered by Matrix" --log="/
 #=================================================
 ynh_script_progression "Adding $app's configuration..."
 
-ynh_config_add --template="tuwunel.toml" --destination="$install_dir/tuwunel.toml"
+ynh_config_add --template="continuwuity.toml" --destination="$install_dir/continuwuity.toml"
 
-chmod 400 "$install_dir/tuwunel.toml"
-chown $app:root "$install_dir/tuwunel.toml"
+chmod 400 "$install_dir/continuwuity.toml"
+chown $app:root "$install_dir/continuwuity.toml"
 
 #=================================================
 # START SYSTEMD SERVICE

@@ -1,19 +1,19 @@
 packaging_format = 2
 
-id = "tuwunel"
-name = "Tuwunel"
+id = "continuwuity"
+name = "Continuwuity"
 description.en = "Simple, fast and reliable chat server powered by Matrix based on Conduit and Conduwuit"
 description.fr = "Serveur de chat simple, rapide et fiable alimenté par Matrix"
 
-version = "1.5.0~ynh1"
+version = "0.5.5~ynh1"
 
 maintainers = []
 
 [upstream]
 license = "Apache-2.0"
-website = "https://tuwunel.chat/"
-admindoc = "https://matrix-construct.github.io/tuwunel/"
-code = "https://github.com/matrix-construct/tuwunel"
+website = "https://continuwuity.org/"
+admindoc = "https://forgejo.ellis.link/continuwuation/continuwuity"
+code = "https://forgejo.ellis.link/continuwuation/continuwuity"
 
 [integration]
 yunohost = ">= 12.1.9"
@@ -40,10 +40,10 @@ ram.runtime = "50M"
     help.fr = "Si vous souhaitez pouvoir fédérer votre serveur avec d'autres, vous devez laisser le choix par défaut, visiteurs"
 
     [install.server_name]
-    ask.en = "Select the display name for your Tuwunel server"
+    ask.en = "Select the display name for your Continuwuity server"
     ask.fr = "Sélectionnez le nom d'affichage pour votre serveur Tuwunel"
-    help.en = "If you choose domain.tld, your Matrix user-ids will be looking like @user:domain.tld instead of @user:tuwunel.domain.tld"
-    help.fr = "Si vous choisissez domain.tld, vos identifiants Matrix ressembleront à @utilisateur:domain.tld plutôt que @utilisateur:tuwunel.domain.tld"
+    help.en = "If you choose domain.tld, your Matrix user-ids will be looking like @user:domain.tld instead of @user:continuwuity.domain.tld"
+    help.fr = "Si vous choisissez domain.tld, vos identifiants Matrix ressembleront à @utilisateur:domain.tld plutôt que @utilisateur:continuwuity.domain.tld"
     type = "domain"
 
     [install.registration]
@@ -61,15 +61,15 @@ ram.runtime = "50M"
         [resources.sources.main]
         in_subdir = false
         extract = true
-        format = "zst"
-        rename = "tuwunel"
-        arm64.url = "https://github.com/matrix-construct/tuwunel/releases/download/v1.5.0/v1.5.0-release-all-aarch64-v8-linux-gnu-tuwunel.zst"
-        arm64.sha256 = "35ab2e32e44d34a4cff86ff6b4a36f8e4c2ae4f305ae73a7e35b1edeb3c30c94"
-        amd64.url = "https://github.com/matrix-construct/tuwunel/releases/download/v1.5.0/v1.5.0-release-all-x86_64-v1-linux-gnu-tuwunel.zst"
-        amd64.sha256 = "2b434e6993e4a7c11836582c69aad5b16d1986cddf600d7a7ef85b1df5ad4e34"
+        format = "bin"
+        rename = "continuwuity"
+        amd64.url = "https://forgejo.ellis.link/continuwuation/continuwuity/releases/download/v0.5.5/conduwuit-haswell-linux-amd64-maxperf"
+        amd64.sha256 = "f5fa8a91503d1cb026ac2745d610dda7e8921f0e8273c0e8b45700e57ac2d3af"
+        amd64.url = "https://forgejo.ellis.link/continuwuation/continuwuity/releases/download/v0.5.5/conduwuit-linux-arm64-maxperf"
+        amd64.sha256 = "deb73a7ee010e2817174230fca1c48dd915e7ab0f963448d9cf9175dbb4dcf03"
         autoupdate.strategy = "latest_github_release"
-        autoupdate.asset.arm64 = "^v\\d+(\\.\\d+){2,3}-release-all-aarch64-v8-linux-gnu-tuwunel\\.zst$"
-        autoupdate.asset.amd64 = "^v\\d+(\\.\\d+){2,3}-release-all-x86_64-v1-linux-gnu-tuwunel\\.zst$"
+        autoupdate.asset.arm64 = "^v\\d+(\\.\\d+){2,3}-release-all-aarch64-v8-linux-gnu-continuwuity\\.zst$"
+        autoupdate.asset.amd64 = "^v\\d+(\\.\\d+){2,3}-release-all-x86_64-v1-linux-gnu-continuwuity\\.zst$"
 
 [resources.system_user]
 
@@ -95,7 +95,7 @@ server_client_infos.protected = true
 
 admin.show_tile = false
 admin.allowed = "admins"
-admin.label = "Tuwunel served admin"
+admin.label = "Continuwuity served admin"
 
 [resources.ports]
 main.default = 6167

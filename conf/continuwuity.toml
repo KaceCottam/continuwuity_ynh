@@ -1,10 +1,10 @@
-### Tuwunel Configuration
+### Continuwuity Configuration
 ###
 ### At the minimum, you MUST edit all the config options to your environment
 ### that say "YOU NEED TO EDIT THIS".
 ###
 ### For more information, see:
-### https://tuwunel.chat/configuration.html
+### https://continuwuity.org/configuration.html
 
 [global]
 
@@ -12,22 +12,22 @@
 # suffix for user and room IDs/aliases.
 #
 # See the docs for reverse proxying and delegation:
-# https://tuwunel.chat/deploying/generic.html#setting-up-the-reverse-proxy
+# https://continuwuity.org/deploying/generic.html#setting-up-the-reverse-proxy
 #
 # Also see the `[global.well_known]` config section at the very bottom.
 #
 # Examples of delegation:
-# - https://matrix.org/.well-known/matrix/server
-# - https://matrix.org/.well-known/matrix/client
+# - https://continuwuity.org/.well-known/matrix/server
+# - https://continuwuity.org/.well-known/matrix/client
 #
 # YOU NEED TO EDIT THIS. THIS CANNOT BE CHANGED AFTER WITHOUT A DATABASE
 # WIPE.
 #
-# example: "girlboss.ceo"
+# example: "continuwuity.org"
 #
 server_name = "__SERVER_NAME__"
 
-# The default address (IPv4 or IPv6) tuwunel will listen on.
+# The default address (IPv4 or IPv6) continuwuity will listen on.
 #
 # If you are using Docker or a container NAT networking setup, this must
 # be "0.0.0.0".
@@ -37,10 +37,10 @@ server_name = "__SERVER_NAME__"
 #
 address = ["127.0.0.1"]
 
-# The port(s) tuwunel will listen on.
+# The port(s) continuwuity will listen on.
 #
 # For reverse proxying, see:
-# https://tuwunel.chat/deploying/generic.html#setting-up-the-reverse-proxy
+# https://continuwuity.org/deploying/generic.html#setting-up-the-reverse-proxy
 #
 # If you are using Docker, don't change this, you'll need to map an
 # external port to this.
@@ -49,16 +49,17 @@ address = ["127.0.0.1"]
 #
 port = __PORT__
 
-# The UNIX socket tuwunel will listen on.
+# The UNIX socket continuwuity will listen on.
 #
-# tuwunel cannot listen on both an IP address and a UNIX socket. If
+# continuwuity cannot listen on both an IP address and a UNIX socket. If
 # listening on a UNIX socket, you MUST remove/comment the `address` key.
 #
 # Remember to make sure that your reverse proxy has access to this socket
-# file, either by adding your reverse proxy to the 'tuwunel' group or
-# granting world R/W permissions with `unix_socket_perms` (666 minimum).
+# file, either by adding your reverse proxy to the appropriate user group
+# or granting world R/W permissions with `unix_socket_perms` (666
+# minimum).
 #
-# example: "/run/tuwunel/tuwunel.sock"
+# example: "/run/continuwuity/continuwuity.sock"
 #
 #unix_socket_path =
 
@@ -66,23 +67,25 @@ port = __PORT__
 #
 #unix_socket_perms = 660
 
-# This is the only directory where tuwunel will save its data, including
-# media. Note: this was previously "/var/lib/matrix-conduit".
+# This is the only directory where continuwuity will save its data,
+# including media. Note: this was previously "/var/lib/matrix-conduit".
 #
-# YOU NEED TO EDIT THIS.
+# YOU NEED TO EDIT THIS, UNLESS you are running continuwuity as a
+# `systemd` service. The service file sets it to `/var/lib/conduwuit`
+# using an environment variable and also grants write access.
 #
-# example: "/var/lib/tuwunel"
+# example: "/var/lib/conduwuit"
 #
-database_path = "__INSTALL_DIR__/tuwunel-db"
+#database_path =
 
-# tuwunel supports online database backups using RocksDB's Backup engine
-# API. To use this, set a database backup path that tuwunel can write
-# to.
+# continuwuity supports online database backups using RocksDB's Backup
+# engine API. To use this, set a database backup path that continuwuity
+# can write to.
 #
 # For more information, see:
-# https://tuwunel.chat/maintenance.html#backups
+# https://continuwuity.org/maintenance.html#backups
 #
-# example: "/opt/tuwunel-db-backups"
+# example: "/opt/continuwuity-db-backups"
 #
 #database_backup_path =
 
@@ -97,10 +100,20 @@ database_path = "__INSTALL_DIR__/tuwunel-db"
 #
 # To disable, set this to "" (an empty string).
 #
+# The default is the trans pride flag.
+#
+# example: "🏳️‍⚧️"
+#
 new_user_displayname_suffix = ""
 
-# Set this to any float value to multiply tuwunel's in-memory LRU caches
-# with such as "auth_chain_cache_capacity".
+# If enabled, continuwuity will send a simple GET request periodically to
+# `https://continuwuity.org/.well-known/continuwuity/announcements` for any new
+# announcements or major updates. This is not an update check endpoint.
+#
+#allow_announcements_check = true
+
+# Set this to any float value to multiply continuwuity's in-memory LRU
+# caches with such as "auth_chain_cache_capacity".
 #
 # May be useful if you have significant memory to spare to increase
 # performance.
@@ -112,7 +125,7 @@ new_user_displayname_suffix = ""
 #
 #cache_capacity_modifier = 1.0
 
-# Set this to any float value in megabytes for tuwunel to tell the
+# Set this to any float value in megabytes for continuwuity to tell the
 # database engine that this much memory is available for database read
 # caches.
 #
@@ -126,7 +139,7 @@ new_user_displayname_suffix = ""
 #
 #db_cache_capacity_mb = varies by system
 
-# Set this to any float value in megabytes for tuwunel to tell the
+# Set this to any float value in megabytes for continuwuity to tell the
 # database engine that this much memory is available for database write
 # caches.
 #
@@ -231,9 +244,9 @@ new_user_displayname_suffix = ""
 # Enable using *only* TCP for querying your specified nameservers instead
 # of UDP.
 #
-# If you are running tuwunel in a container environment, this config
+# If you are running continuwuity in a container environment, this config
 # option may need to be enabled. For more details, see:
-# https://tuwunel.chat/troubleshooting.html#potential-dns-issues-when-using-docker
+# https://continuwuity.org/troubleshooting.html#potential-dns-issues-when-using-docker
 #
 #query_over_tcp_only = false
 
@@ -267,6 +280,25 @@ new_user_displayname_suffix = ""
 # This item is undocumented. Please contribute documentation for it.
 #
 #max_fetch_prev_events = 192
+
+# How many incoming federation transactions the server is willing to be
+# processing at any given time before it becomes overloaded and starts
+# rejecting further transactions until some slots become available.
+#
+# Setting this value too low or too high may result in unstable
+# federation, and setting it too high may cause runaway resource usage.
+#
+#max_concurrent_inbound_transactions = 150
+
+# Maximum age (in seconds) for cached federation transaction responses.
+# Entries older than this will be removed during cleanup.
+#
+#transaction_id_cache_max_age_secs = 7200 (2 hours)
+
+# Maximum number of cached federation transaction responses.
+# When the cache exceeds this limit, older entries will be removed.
+#
+#transaction_id_cache_max_entries = 8192
 
 # Default/base connection timeout (seconds). This is used only by URL
 # previews and update/news endpoint checks.
@@ -305,11 +337,38 @@ new_user_displayname_suffix = ""
 #
 #well_known_timeout = 10
 
+# Federation client connection timeout (seconds). You should not set this
+# to high values, as dead homeservers can significantly slow down
+# federation, specifically key retrieval, which will take roughly the
+# amount of time you configure here given that a homeserver doesn't
+# respond. This will cause most clients to time out /keys/query, causing
+# E2EE and device verification to fail.
+#
+#federation_conn_timeout = 10
+
 # Federation client request timeout (seconds). You most definitely want
 # this to be high to account for extremely large room joins, slow
 # homeservers, your own resources etc.
 #
+# Joins have 6x the timeout.
+#
 #federation_timeout = 300
+
+# MSC4284 Policy server request timeout (seconds). Generally policy
+# servers should respond near instantly, however may slow down under
+# load. If a policy server doesn't respond in a short amount of time, the
+# room it is configured in may become unusable if this limit is set too
+# high. 10 seconds is a good default, however dropping this to 3-5 seconds
+# can be acceptable.
+#
+# Please be aware that policy requests are *NOT* currently re-tried, so if
+# a spam check request fails, the event will be assumed to be not spam,
+# which in some cases may result in spam being sent to or received from
+# the room that would typically be prevented.
+#
+# About policy servers: https://matrix.org/blog/2025/04/introducing-policy-servers/
+#
+#policy_server_request_timeout = 10
 
 # Federation client idle connection pool timeout (seconds).
 #
@@ -342,7 +401,15 @@ new_user_displayname_suffix = ""
 #
 #appservice_idle_timeout = 300
 
-# Notification gateway pusher idle connection pool timeout.
+# Notification gateway pusher request connection timeout (seconds).
+#
+#pusher_conn_timeout = 15
+
+# Notification gateway pusher total request timeout (seconds).
+#
+#pusher_timeout = 60
+
+# Notification gateway pusher idle connection pool timeout (seconds).
 #
 #pusher_idle_timeout = 15
 
@@ -374,9 +441,25 @@ new_user_displayname_suffix = ""
 # `yes_i_am_very_very_sure_i_want_an_open_registration_server_prone_to_abuse`
 #
 # If you would like registration only via token reg, please configure
-# `registration_token` or `registration_token_file`.
+# `registration_token`.
 #
 allow_registration = __REGISTRATION__
+
+# If registration is enabled, and this setting is true, new users
+# registered after the first admin user will be automatically suspended
+# and will require an admin to run `!admin users unsuspend <user_id>`.
+#
+# Suspended users are still able to read messages, make profile updates,
+# leave rooms, and deactivate their account, however cannot send messages,
+# invites, or create/join or otherwise modify rooms.
+# They are effectively read-only.
+#
+# If you want to use this to screen people who register on your server,
+# you should add a room to `auto_join_rooms` that is public, and contains
+# information that new users can read (since they won't be able to DM
+# anyone, or send a message, and may be confused).
+#
+#suspend_on_register = false
 
 # Enabling this setting opens registration to anyone without restrictions.
 # This makes your server vulnerable to abuse
@@ -389,21 +472,32 @@ allow_registration = __REGISTRATION__
 # `yes_i_am_very_very_sure_i_want_an_open_registration_server_prone_to_abuse`
 # to true to allow open registration without any conditions.
 #
-# YOU NEED TO EDIT THIS OR USE registration_token_file.
+# If you do not want to set a static token, the `!admin token` commands
+# may also be used to manage registration tokens.
 #
 # example: "o&^uCtes4HPf0Vu@F20jQeeWE7"
 #
 registration_token = "__REGISTRATION_TOKEN__"
 
-# Path to a file on the system that gets read for additional registration
-# tokens. Multiple tokens can be added if you separate them with
-# whitespace
+# The public site key for reCaptcha. If this is provided, reCaptcha
+# becomes required during registration. If both captcha *and*
+# registration token are enabled, both will be required during
+# registration.
 #
-# tuwunel must be able to access the file, and it must not be empty
+# IMPORTANT: "Verify the origin of reCAPTCHA solutions" **MUST** BE
+# DISABLED IF YOU WANT THE CAPTCHA TO WORK IN 3RD PARTY CLIENTS, OR
+# CLIENTS HOSTED ON DOMAINS OTHER THAN YOUR OWN!
 #
-# example: "/etc/tuwunel/.reg_token"
+# Registration must be enabled (`allow_registration` must be true) for
+# this to have any effect.
 #
-#registration_token_file =
+#recaptcha_site_key =
+
+# The private site key for reCaptcha.
+# If this is omitted, captcha registration will not work,
+# even if `recaptcha_site_key` is set.
+#
+#recaptcha_private_site_key =
 
 # Controls whether encrypted rooms and events are allowed.
 #
@@ -442,12 +536,6 @@ allow_federation = __FEDERATION__
 # is inherently false.
 #
 #allow_public_room_directory_over_federation = false
-
-# Set this to true to allow your server's public room directory to be
-# queried without client authentication (access token) through the Client
-# APIs. Set this to false to protect against /publicRooms spiders.
-#
-#allow_public_room_directory_without_auth = false
 
 # Allow guests/unauthenticated users to access TURN credentials.
 #
@@ -493,28 +581,42 @@ allow_federation = __FEDERATION__
 #allow_room_creation = true
 
 # Set to false to disable users from joining or creating room versions
-# that aren't officially supported by tuwunel.
+# that aren't officially supported by continuwuity.
 #
-# tuwunel officially supports room versions 6 - 11.
+# continuwuity officially supports room versions 6 - 11.
 #
-# tuwunel has slightly experimental (though works fine in practice)
+# continuwuity has slightly experimental (though works fine in practice)
 # support for versions 3 - 5.
 #
 #allow_unstable_room_versions = true
 
-# Default room version tuwunel will create rooms with.
+# Default room version continuwuity will create rooms with.
+# Note that this has to be a string since the room version is a string
+# rather than an integer. Forgetting the quotes will make the server fail
+# to start!
 #
-# Per spec, room version 11 is the default.
+# Per spec, room version "11" is the default.
 #
-#default_room_version = 11
+#default_room_version = "11"
 
-# This item is undocumented. Please contribute documentation for it.
+# Enable OpenTelemetry OTLP tracing export. This replaces the deprecated
+# Jaeger exporter. Traces will be sent via OTLP to a collector (such as
+# Jaeger) that supports the OpenTelemetry Protocol.
 #
-#allow_jaeger = false
+# Configure your OTLP endpoint using the OTEL_EXPORTER_OTLP_ENDPOINT
+# environment variable (defaults to http://localhost:4318).
+#
+#allow_otlp = false
 
-# This item is undocumented. Please contribute documentation for it.
+# Filter for OTLP tracing spans. This controls which spans are exported
+# to the OTLP collector.
 #
-#jaeger_filter = "info"
+#otlp_filter = "info"
+
+# Protocol to use for OTLP tracing export. Options are "http" or "grpc".
+# The HTTP protocol uses port 4318 by default, while gRPC uses port 4317.
+#
+#otlp_protocol = "http"
 
 # If the 'perf_measurements' compile-time feature is enabled, enables
 # collecting folded stack trace profile of tracing spans using
@@ -568,7 +670,7 @@ allow_federation = __FEDERATION__
 # Servers listed here will be used to gather public keys of other servers
 # (notary trusted key servers).
 #
-# Currently, tuwunel doesn't support inbound batched key requests, so
+# Currently, continuwuity doesn't support inbound batched key requests, so
 # this list should only contain other Synapse servers.
 #
 # example: ["matrix.org", "tchncs.de"]
@@ -609,7 +711,7 @@ allow_federation = __FEDERATION__
 #
 #trusted_server_batch_size = 1024
 
-# Max log level for tuwunel. Allows debug, info, warn, or error.
+# Max log level for continuwuity. Allows debug, info, warn, or error.
 #
 # See also:
 # https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html#directives
@@ -630,14 +732,30 @@ allow_federation = __FEDERATION__
 #
 #log_span_events = "none"
 
-# Configures whether TUWUNEL_LOG EnvFilter matches values using regular
-# expressions. See the tracing_subscriber documentation on Directives.
+# Configures whether CONTINUWUITY_LOG EnvFilter matches values using
+# regular expressions. See the tracing_subscriber documentation on
+# Directives.
 #
 #log_filter_regex = true
 
 # Toggles the display of ThreadId in tracing log output.
 #
 #log_thread_ids = false
+
+# Enable journald logging on Unix platforms
+#
+# When enabled, log output will be sent to the systemd journal
+# This is only supported on Unix platforms
+#
+#log_to_journald = false
+
+# The syslog identifier to use with journald logging
+#
+# Only used when journald logging is enabled
+#
+# Defaults to the binary name
+#
+#journald_identifier =
 
 # OpenID token expiration/TTL in seconds.
 #
@@ -699,7 +817,7 @@ allow_federation = __FEDERATION__
 # This takes priority over "turn_secret" first, and falls back to
 # "turn_secret" if invalid or failed to open.
 #
-# example: "/etc/tuwunel/.turn_secret"
+# example: "/etc/continuwuity/.turn_secret"
 #
 #turn_secret_file =
 
@@ -707,12 +825,12 @@ allow_federation = __FEDERATION__
 #
 #turn_ttl = 86400
 
-# List/vector of room IDs or room aliases that tuwunel will make newly
-# registered users join. The rooms specified must be rooms that you have
-# joined at least once on the server, and must be public.
+# List/vector of room IDs or room aliases that continuwuity will make
+# newly registered users join. The rooms specified must be rooms that you
+# have joined at least once on the server, and must be public.
 #
-# example: ["#tuwunel:tuwunel.chat",
-# "!eoIzvAvVwY23LPDay8:tuwunel.chat"]
+# example: ["#continuwuity:continuwuity.org",
+# "!main-1:continuwuity.org"]
 #
 #auto_join_rooms = []
 
@@ -735,10 +853,10 @@ allow_federation = __FEDERATION__
 #
 #auto_deactivate_banned_room_attempts = false
 
-# RocksDB log level. This is not the same as tuwunel's log level. This
-# is the log level for the RocksDB engine/library which show up in your
-# database folder/path as `LOG` files. tuwunel will log RocksDB errors
-# as normal through tracing or panics if severe for safety.
+# RocksDB log level. This is not the same as continuwuity's log level.
+# This is the log level for the RocksDB engine/library which show up in
+# your database folder/path as `LOG` files. continuwuity will log RocksDB
+# errors as normal through tracing or panics if severe for safety.
 #
 #rocksdb_log_level = "error"
 
@@ -758,7 +876,7 @@ allow_federation = __FEDERATION__
 # Set this to true to use RocksDB config options that are tailored to HDDs
 # (slower device storage).
 #
-# It is worth noting that by default, tuwunel will use RocksDB with
+# It is worth noting that by default, continuwuity will use RocksDB with
 # Direct IO enabled. *Generally* speaking this improves performance as it
 # bypasses buffered I/O (system page cache). However there is a potential
 # chance that Direct IO may cause issues with database operations if your
@@ -766,7 +884,7 @@ allow_federation = __FEDERATION__
 # possibly ZFS filesystem. RocksDB generally deals/corrects these issues
 # but it cannot account for all setups. If you experience any weird
 # RocksDB issues, try enabling this option as it turns off Direct IO and
-# feel free to report in the tuwunel Matrix room if this option fixes
+# feel free to report in the continuwuity Matrix room if this option fixes
 # your DB issues.
 #
 # For more information, see:
@@ -821,7 +939,7 @@ allow_federation = __FEDERATION__
 # as they all differ. See their `kDefaultCompressionLevel`.
 #
 # Note when using the default value we may override it with a setting
-# tailored specifically tuwunel.
+# tailored specifically for continuwuity.
 #
 #rocksdb_compression_level = 32767
 
@@ -837,7 +955,7 @@ allow_federation = __FEDERATION__
 # algorithm.
 #
 # Note when using the default value we may override it with a setting
-# tailored specifically tuwunel.
+# tailored specifically for continuwuity.
 #
 #rocksdb_bottommost_compression_level = 32767
 
@@ -851,6 +969,21 @@ allow_federation = __FEDERATION__
 # See https://github.com/facebook/rocksdb/wiki/Compression for more details.
 #
 #rocksdb_bottommost_compression = true
+
+# Compression algorithm for RocksDB's Write-Ahead-Log (WAL).
+#
+# At present, only ZSTD compression is supported by RocksDB for WAL
+# compression. Enabling this can reduce WAL size at the expense of some
+# CPU usage during writes.
+#
+# The options are:
+# - "none" = No compression
+# - "zstd" = ZSTD compression
+#
+# For more information on WAL compression, see:
+# https://github.com/facebook/rocksdb/wiki/WAL-Compression
+#
+#rocksdb_wal_compression = "zstd"
 
 # Database recovery mode (for RocksDB WAL corruption).
 #
@@ -877,13 +1010,13 @@ allow_federation = __FEDERATION__
 # 0 = AbsoluteConsistency
 # 1 = TolerateCorruptedTailRecords (default)
 # 2 = PointInTime (use me if trying to recover)
-# 3 = SkipAnyCorruptedRecord (you now voided your tuwunel warranty)
+# 3 = SkipAnyCorruptedRecord (you now voided your Continuwuity warranty)
 #
 # For more information on these modes, see:
 # https://github.com/facebook/rocksdb/wiki/WAL-Recovery-Modes
 #
 # For more details on recovering a corrupt database, see:
-# https://tuwunel.chat/troubleshooting.html#database-corruption
+# https://continuwuity.org/troubleshooting.html#database-corruption
 #
 #rocksdb_recovery_mode = 1
 
@@ -923,17 +1056,9 @@ allow_federation = __FEDERATION__
 # - Disabling repair mode and restarting the server is recommended after
 #   running the repair.
 #
-# See https://tuwunel.chat/troubleshooting.html#database-corruption for more details on recovering a corrupt database.
+# See https://continuwuity.org/troubleshooting.html#database-corruption for more details on recovering a corrupt database.
 #
 #rocksdb_repair = false
-
-# This item is undocumented. Please contribute documentation for it.
-#
-#rocksdb_read_only = false
-
-# This item is undocumented. Please contribute documentation for it.
-#
-#rocksdb_secondary = false
 
 # Enables idle CPU priority for compaction thread. This is not enabled by
 # default to prevent compaction from falling too far behind on busy
@@ -950,7 +1075,7 @@ allow_federation = __FEDERATION__
 # Enables RocksDB compaction. You should never ever have to set this
 # option to false. If you for some reason find yourself needing to use
 # this option as part of troubleshooting or a bug, please reach out to us
-# in the tuwunel Matrix room with information and details.
+# in the continuwuity Matrix room with information and details.
 #
 # Disabling compaction will lead to a significantly bloated and
 # explosively large database, gradually poor performance, unnecessarily
@@ -976,7 +1101,7 @@ allow_federation = __FEDERATION__
 # purposes such as recovering/recreating your admin room, or inviting
 # yourself back.
 #
-# See https://tuwunel.chat/troubleshooting.html#lost-access-to-admin-room for other ways to get back into your admin room.
+# See https://continuwuity.org/troubleshooting.html#lost-access-to-admin-room for other ways to get back into your admin room.
 #
 # Once this password is unset, all sessions will be logged out for
 # security purposes.
@@ -991,27 +1116,34 @@ allow_federation = __FEDERATION__
 
 # Allow local (your server only) presence updates/requests.
 #
-# Note that presence on tuwunel is very fast unlike Synapse's. If using
-# outgoing presence, this MUST be enabled.
+# Local presence must be enabled for outgoing presence to function.
+#
+# Note that local presence is not as heavy on the CPU as federated
+# presence, but will still become more expensive the more local users you
+# have.
 #
 #allow_local_presence = true
 
-# Allow incoming federated presence updates/requests.
+# Allow incoming federated presence updates.
 #
-# This option receives presence updates from other servers, but does not
-# send any unless `allow_outgoing_presence` is true. Note that presence on
-# tuwunel is very fast unlike Synapse's.
+# This option enables processing inbound presence updates from other
+# servers. Without it, remote users will appear as if they are always
+# offline to your local users. This does not affect typing indicators or
+# read receipts.
 #
 #allow_incoming_presence = true
 
 # Allow outgoing presence updates/requests.
 #
-# This option sends presence updates to other servers, but does not
-# receive any unless `allow_incoming_presence` is true. Note that presence
-# on tuwunel is very fast unlike Synapse's. If using outgoing presence,
-# you MUST enable `allow_local_presence` as well.
+# This option sends presence updates to other servers, and requires that
+# `allow_local_presence` is also enabled.
 #
-#allow_outgoing_presence = true
+# Note that outgoing presence is very heavy on the CPU and network, and
+# will typically cause extreme strain and slowdowns for no real benefit.
+# There are only a few clients that even implement presence, so you
+# probably don't want to enable this.
+#
+#allow_outgoing_presence = false
 
 # How many seconds without presence updates before you become idle.
 # Defaults to 5 minutes.
@@ -1032,15 +1164,37 @@ allow_federation = __FEDERATION__
 #
 #presence_timeout_remote_users = true
 
+# Allow local read receipts.
+#
+# Disabling this will effectively also disable outgoing federated read
+# receipts.
+#
+#allow_local_read_receipts = true
+
 # Allow receiving incoming read receipts from remote servers.
 #
 #allow_incoming_read_receipts = true
 
 # Allow sending read receipts to remote servers.
 #
+# Note that sending read receipts to remote servers in large rooms with
+# lots of other homeservers may cause additional strain on the CPU and
+# network.
+#
 #allow_outgoing_read_receipts = true
 
+# Allow local typing updates.
+#
+# Disabling this will effectively also disable outgoing federated typing
+# updates.
+#
+#allow_local_typing = true
+
 # Allow outgoing typing updates to federation.
+#
+# Note that sending typing indicators to remote servers in large rooms
+# with lots of other homeservers may cause additional strain on the CPU
+# and network.
 #
 #allow_outgoing_typing = true
 
@@ -1062,8 +1216,8 @@ allow_federation = __FEDERATION__
 #
 #typing_client_timeout_max_s = 45
 
-# Set this to true for tuwunel to compress HTTP response bodies using
-# zstd. This option does nothing if tuwunel was not built with
+# Set this to true for continuwuity to compress HTTP response bodies using
+# zstd. This option does nothing if continuwuity was not built with
 # `zstd_compression` feature. Please be aware that enabling HTTP
 # compression may weaken TLS. Most users should not need to enable this.
 # See https://breachattack.com/ and https://wikipedia.org/wiki/BREACH
@@ -1071,8 +1225,8 @@ allow_federation = __FEDERATION__
 #
 #zstd_compression = false
 
-# Set this to true for tuwunel to compress HTTP response bodies using
-# gzip. This option does nothing if tuwunel was not built with
+# Set this to true for continuwuity to compress HTTP response bodies using
+# gzip. This option does nothing if continuwuity was not built with
 # `gzip_compression` feature. Please be aware that enabling HTTP
 # compression may weaken TLS. Most users should not need to enable this.
 # See https://breachattack.com/ and https://wikipedia.org/wiki/BREACH before
@@ -1083,8 +1237,8 @@ allow_federation = __FEDERATION__
 #
 #gzip_compression = false
 
-# Set this to true for tuwunel to compress HTTP response bodies using
-# brotli. This option does nothing if tuwunel was not built with
+# Set this to true for continuwuity to compress HTTP response bodies using
+# brotli. This option does nothing if continuwuity was not built with
 # `brotli_compression` feature. Please be aware that enabling HTTP
 # compression may weaken TLS. Most users should not need to enable this.
 # See https://breachattack.com/ and https://wikipedia.org/wiki/BREACH
@@ -1117,9 +1271,10 @@ allow_federation = __FEDERATION__
 #
 # The authenticated equivalent endpoints are always enabled.
 #
-# Defaults to false.
+# Defaults to true for now, but this is highly subject to change, likely
+# in the next release.
 #
-#allow_legacy_media = false
+#allow_legacy_media = true
 
 # This item is undocumented. Please contribute documentation for it.
 #
@@ -1127,8 +1282,8 @@ allow_federation = __FEDERATION__
 
 # Check consistency of the media directory at startup:
 # 1. When `media_compat_file_link` is enabled, this check will upgrade
-#    media when switching back and forth between Conduit and tuwunel. Both
-#    options must be enabled to handle this.
+#    media when switching back and forth between Conduit and conduwuit.
+#    Both options must be enabled to handle this.
 # 2. When media is deleted from the directory, this check will also delete
 #    its database entry.
 #
@@ -1145,7 +1300,7 @@ allow_federation = __FEDERATION__
 # Otherwise setting this to false reduces filesystem clutter and overhead
 # for managing these symlinks in the directory. This is now disabled by
 # default. You may still return to upstream Conduit but you have to run
-# tuwunel at least once with this set to true and allow the
+# continuwuity at least once with this set to true and allow the
 # media_startup_check to take place before shutting down to return to
 # Conduit.
 #
@@ -1162,26 +1317,40 @@ allow_federation = __FEDERATION__
 #
 #prune_missing_media = false
 
-# Vector list of regex patterns of server names that tuwunel will refuse
-# to download remote media from.
-#
-# example: ["badserver\.tld$", "badphrase", "19dollarfortnitecards"]
-#
-#prevent_media_downloads_from = []
-
 # List of forbidden server names via regex patterns that we will block
 # incoming AND outgoing federation with, and block client room joins /
 # remote user invites.
+#
+# Note that your messages can still make it to forbidden servers through
+# backfilling. Events we receive from forbidden servers via backfill
+# from servers we *do* federate with will be stored in the database.
 #
 # This check is applied on the room ID, room alias, sender server name,
 # sender user's server name, inbound federation X-Matrix origin, and
 # outbound federation handler.
 #
-# Basically "global" ACLs.
+# You can set this to [".*"] to block all servers by default, and then
+# use `allowed_remote_server_names` to allow only specific servers.
+#
+# example: ["badserver\\.tld$", "badphrase", "19dollarfortnitecards"]
+#
+#forbidden_remote_server_names = []
+
+# List of allowed server names via regex patterns that we will allow,
+# regardless of if they match `forbidden_remote_server_names`.
+#
+# This option has no effect if `forbidden_remote_server_names` is empty.
+#
+# example: ["goodserver\\.tld$", "goodphrase"]
+#
+#allowed_remote_server_names = []
+
+# Vector list of regex patterns of server names that continuwuity will
+# refuse to download remote media from.
 #
 # example: ["badserver\.tld$", "badphrase", "19dollarfortnitecards"]
 #
-#forbidden_remote_server_names = []
+#prevent_media_downloads_from = []
 
 # List of forbidden server names via regex patterns that we will block all
 # outgoing federated room directory requests for. Useful for preventing
@@ -1191,8 +1360,31 @@ allow_federation = __FEDERATION__
 #
 #forbidden_remote_room_directory_server_names = []
 
+# Vector list of regex patterns of server names that continuwuity will not
+# send messages to the client from.
+#
+# Note that there is no way for clients to receive messages once a server
+# has become unignored without doing a full sync. This is a protocol
+# limitation with the current sync protocols. This means this is somewhat
+# of a nuclear option.
+#
+# example: ["reallybadserver\.tld$", "reallybadphrase",
+# "69dollarfortnitecards"]
+#
+#ignore_messages_from_server_names = []
+
+# Send messages from users that the user has ignored to the client.
+#
+# There is no way for clients to receive messages sent while a user was
+# ignored without doing a full sync. This is a protocol limitation with
+# the current sync protocols. Disabling this option will move
+# responsibility of ignoring messages to the client, which can avoid this
+# limitation.
+#
+#send_messages_from_ignored_users_to_client = false
+
 # Vector list of IPv4 and IPv6 CIDR ranges / subnets *in quotes* that you
-# do not want tuwunel to send outbound requests to. Defaults to
+# do not want continuwuity to send outbound requests to. Defaults to
 # RFC1918, unroutable, loopback, multicast, and testnet addresses for
 # security.
 #
@@ -1275,6 +1467,11 @@ allow_federation = __FEDERATION__
 #
 #url_preview_max_spider_size = 256000
 
+# Total request timeout for URL previews (seconds). This includes
+# connection, request, and response body reading time.
+#
+#url_preview_timeout = 120
+
 # Option to decide whether you would like to run the domain allowlist
 # checks (contains and explicit) on the root domain or not. Does not apply
 # to URL contains allowlist. Defaults to false.
@@ -1287,6 +1484,10 @@ allow_federation = __FEDERATION__
 # subdomains under a root domain.
 #
 #url_preview_check_root_domain = false
+
+# User agent that is used specifically when fetching url previews.
+#
+#url_preview_user_agent = "continuwuity/<version> (bot; +https://continuwuity.org)"
 
 # List of forbidden room aliases and room IDs as strings of regex
 # patterns.
@@ -1340,36 +1541,50 @@ allow_federation = __FEDERATION__
 #
 #block_non_admin_invites = false
 
+# Enable or disable making requests to MSC4284 Policy Servers.
+# It is recommended you keep this enabled unless you experience frequent
+# connectivity issues, such as in a restricted networking environment.
+#
+#enable_msc4284_policy_servers = true
+
+# Enable running locally generated events through configured MSC4284
+# policy servers. You may wish to disable this if your server is
+# single-user for a slight speed benefit in some rooms, but otherwise
+# should leave it enabled.
+#
+#policy_server_check_own_events = true
+
 # Allow admins to enter commands in rooms other than "#admins" (admin
 # room) by prefixing your message with "\!admin" or "\\!admin" followed up
-# a normal tuwunel admin command. The reply will be publicly visible to
-# the room, originating from the sender.
+# a normal continuwuity admin command. The reply will be publicly visible
+# to the room, originating from the sender.
 #
-# example: \\!admin debug ping puppygock.gay
+# example: \\!admin debug ping continuwuity.org
 #
 #admin_escape_commands = true
 
-# Automatically activate the tuwunel admin room console / CLI on
-# startup. This option can also be enabled with `--console` tuwunel
+# Automatically activate the continuwuity admin room console / CLI on
+# startup. This option can also be enabled with `--console` continuwuity
 # argument.
 #
 #admin_console_automatic = false
 
 # List of admin commands to execute on startup.
 #
-# This option can also be configured with the `--execute` tuwunel
+# This option can also be configured with the `--execute` continuwuity
 # argument and can take standard shell commands and environment variables
 #
-# For example: `./tuwunel --execute "server admin-notice tuwunel has
-# started up at $(date)"`
+# For example: `./continuwuity --execute "server admin-notice continuwuity
+# has started up at $(date)"`
 #
-# example: admin_execute = ["debug ping puppygock.gay", "debug echo hi"]`
+# example: admin_execute = ["debug ping continuwuity.org", "debug echo
+# hi"]`
 #
 #admin_execute = []
 
 # Ignore errors in startup commands.
 #
-# If false, tuwunel will error and fail to start if an admin execute
+# If false, continuwuity will error and fail to start if an admin execute
 # command (`--execute` / `admin_execute`) fails.
 #
 #admin_execute_errors_ignore = false
@@ -1390,15 +1605,26 @@ allow_federation = __FEDERATION__
 # The default room tag to apply on the admin room.
 #
 # On some clients like Element, the room tag "m.server_notice" is a
-# special pinned room at the very bottom of your room list. The tuwunel
-# admin room can be pinned here so you always have an easy-to-access
-# shortcut dedicated to your admin room.
+# special pinned room at the very bottom of your room list. The
+# continuwuity admin room can be pinned here so you always have an
+# easy-to-access shortcut dedicated to your admin room.
 #
 #admin_room_tag = "m.server_notice"
 
+# A list of Matrix IDs that are qualified as server admins.
+#
+# Any Matrix IDs within this list are regarded as an admin
+# regardless of whether they are in the admin room or not
+#
+#admins_list = []
+
+# Defines whether those within the admin room are added to the
+# admins_list.
+#
+#admins_from_room = true
+
 # Sentry.io crash/panic reporting, performance monitoring/metrics, etc.
-# This is NOT enabled by default. tuwunel's default Sentry reporting
-# endpoint domain is `o4506996327251968.ingest.us.sentry.io`.
+# This is NOT enabled by default.
 #
 #sentry = false
 
@@ -1406,7 +1632,7 @@ allow_federation = __FEDERATION__
 #
 #sentry_endpoint = ""
 
-# Report your tuwunel server_name in Sentry.io crash reports and
+# Report your continuwuity server_name in Sentry.io crash reports and
 # metrics.
 #
 #sentry_send_server_name = false
@@ -1442,8 +1668,8 @@ allow_federation = __FEDERATION__
 
 # Enable the tokio-console. This option is only relevant to developers.
 #
-#	For more information, see:
-# https://tuwunel.chat/development.html#debugging-with-tokio-console
+#    For more information, see:
+# https://continuwuity.org/development.html#debugging-with-tokio-console
 #
 #tokio_console = false
 
@@ -1583,21 +1809,41 @@ allow_federation = __FEDERATION__
 #
 #server =
 
-# This item is undocumented. Please contribute documentation for it.
+# URL to a support page for the server, which will be served as part of
+# the MSC1929 server support endpoint at /.well-known/matrix/support.
+# Will be included alongside any contact information
 #
 #support_page =
 
-# This item is undocumented. Please contribute documentation for it.
+# Role string for server support contacts, to be served as part of the
+# MSC1929 server support endpoint at /.well-known/matrix/support.
 #
-#support_role =
+#support_role = "m.role.admin"
 
-# This item is undocumented. Please contribute documentation for it.
+# Email address for server support contacts, to be served as part of the
+# MSC1929 server support endpoint.
+# This will be used along with support_mxid if specified.
 #
 #support_email =
 
-# This item is undocumented. Please contribute documentation for it.
+# Matrix ID for server support contacts, to be served as part of the
+# MSC1929 server support endpoint.
+# This will be used along with support_email if specified.
+#
+# If no email or mxid is specified, all of the server's admins will be
+# listed.
 #
 #support_mxid =
+
+# **DEPRECATED**: Use `[global.matrix_rtc].foci` instead.
+#
+# A list of MatrixRTC foci URLs which will be served as part of the
+# MSC4143 client endpoint at /.well-known/matrix/client.
+#
+# This option is deprecated and will be removed in a future release.
+# Please migrate to the new `[global.matrix_rtc]` config section.
+#
+#rtc_focus_server_urls = []
 
 [global.blurhashing]
 
@@ -1617,6 +1863,23 @@ allow_federation = __FEDERATION__
 #
 #blurhash_max_raw_size = 33554432
 
+[global.matrix_rtc]
+
+# A list of MatrixRTC foci (transports) which will be served via the
+# MSC4143 RTC transports endpoint at
+# `/_matrix/client/v1/rtc/transports`. If you're setting up livekit,
+# you'd want something like:
+# ```toml
+# [global.matrix_rtc]
+# foci = [
+#     { type = "livekit", livekit_service_url = "https://livekit.example.com" },
+# ]
+# ```
+#
+# To disable, set this to an empty list (`[]`).
+#
+#foci = []
+
 [global.ldap]
 
 # Whether to enable LDAP login.
@@ -1624,6 +1887,13 @@ allow_federation = __FEDERATION__
 # example: "true"
 #
 enable = true
+
+# Whether to force LDAP authentication or authorize classical password
+# login.
+#
+# example: "true"
+#
+#ldap_only = false
 
 # URI of the LDAP server.
 #
@@ -1648,14 +1918,14 @@ base_dn = "ou=users,dc=yunohost,dc=org"
 # example: "cn=ldap-reader,dc=example,dc=org" or
 # "cn={username},ou=users,dc=example,dc=org"
 #
-#bind_dn = false
+#bind_dn = ""
 
 # Path to a file on the system that contains the password for the
 # `bind_dn`.
 #
 # The server must be able to access the file, and it must not be empty.
 #
-#bind_password_file = false
+#bind_password_file = ""
 
 # Search filter to limit user searches.
 #
@@ -1672,17 +1942,11 @@ filter = "(uid={username})"
 #
 #uid_attribute = "uid"
 
-# Attribute containing the mail of the user.
-#
-# example: "mail"
-#
-#mail_attribute = "mail"
-
-# Attribute containing the distinguished name of the user.
+# Attribute containing the display name of the user.
 #
 # example: "givenName" or "sn"
 #
-#name_attribute = "fullName"
+#name_attribute = "givenName"
 
 # Root of the searches for admin users.
 #
@@ -1690,9 +1954,9 @@ filter = "(uid={username})"
 #
 # example: "ou=admins,dc=example,dc=org"
 #
-#admin_base_dn = false
+#admin_base_dn = ""
 
-# The LDAP search filter to find administrative users for tuwunel.
+# The LDAP search filter to find administrative users for continuwuity.
 #
 # If left blank, administrative state must be configured manually for each
 # user.
@@ -1700,6 +1964,47 @@ filter = "(uid={username})"
 # You can use the variable `{username}` that will be replaced by the
 # entered username for more complex filters.
 #
-# example: "(objectClass=tuwunelAdmin)" or "(uid={username})"
+# example: "(objectClass=conduwuitAdmin)" or "(uid={username})"
 #
-admin_filter = "(&(uid={username})(permission=cn=__APP__.admin,ou=permission,dc=yunohost,dc=org))"
+#admin_filter = ""
+
+#[global.antispam]
+
+#[global.antispam.meowlnir]
+
+# The base URL on which to contact Meowlnir (before /_meowlnir/antispam).
+#
+# Example: "http://127.0.0.1:29339"
+#
+#base_url =
+
+# The authentication secret defined in antispam->secret. Required for
+# continuwuity to talk to Meowlnir.
+#
+#secret =
+
+# The management room for which to send requests
+#
+#management_room =
+
+# If enabled run all federated join attempts (both federated and local)
+# through the Meowlnir anti-spam checks.
+#
+# By default, only join attempts for rooms with the `fi.mau.spam_checker`
+# restricted join rule are checked.
+#
+#check_all_joins = false
+
+#[global.antispam.draupnir]
+
+# The base URL on which to contact Draupnir (before /api/).
+#
+# Example: "http://127.0.0.1:29339"
+#
+#base_url =
+
+# The authentication secret defined in
+# web->synapseHTTPAntispam->authorization
+#
+#secret =
+
