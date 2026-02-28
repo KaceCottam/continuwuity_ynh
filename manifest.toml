@@ -41,7 +41,7 @@ ram.runtime = "50M"
 
     [install.server_name]
     ask.en = "Select the display name for your Continuwuity server"
-    ask.fr = "Sélectionnez le nom d'affichage pour votre serveur Tuwunel"
+    ask.fr = "Sélectionnez le nom d'affichage pour votre serveur Continuwuity"
     help.en = "If you choose domain.tld, your Matrix user-ids will be looking like @user:domain.tld instead of @user:continuwuity.domain.tld"
     help.fr = "Si vous choisissez domain.tld, vos identifiants Matrix ressembleront à @utilisateur:domain.tld plutôt que @utilisateur:continuwuity.domain.tld"
     type = "domain"
